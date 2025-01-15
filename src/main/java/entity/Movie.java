@@ -14,6 +14,7 @@ public class Movie {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
     private String title;
+    @OneToOne
     private Category category;
     private double price;
     private int productionYear;
