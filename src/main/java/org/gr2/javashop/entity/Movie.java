@@ -1,4 +1,4 @@
-package entity;
+package org.gr2.javashop.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
