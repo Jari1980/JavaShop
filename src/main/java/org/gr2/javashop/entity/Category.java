@@ -22,7 +22,9 @@ public class Category {
 
     }
 
-
+    public Category(String name) {
+        this.name = name;
+    }
 
     public int getId() {
         return id;
