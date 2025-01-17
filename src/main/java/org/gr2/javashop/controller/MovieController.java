@@ -1,5 +1,6 @@
 package org.gr2.javashop.controller;
 
+import ch.qos.logback.core.model.Model;
 import jakarta.servlet.http.HttpServletResponse;
 import org.gr2.javashop.entity.Category;
 import org.gr2.javashop.entity.Movie;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.gr2.javashop.repository.CategoryRepository;
 import org.gr2.javashop.repository.MovieRepository;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -26,6 +28,30 @@ public class MovieController {
         this.categoryRepository = categoryRepository;
     }
 
+    @GetMapping("/")
+    public String homepage(){
+        return "index";
+    }
+
+    @GetMapping("/categories")
+    public void categories(){
+
+    }
+
+    @GetMapping("/allMovies")
+    public void allMovies(){
+
+    }
+
+    @GetMapping("/adminPages")
+    public void adminPages(){
+
+    }
+
+    @GetMapping("/about")
+    public void about(){
+
+    }
 
     //This will be a button in admin pages to fill upp db to start later on
     @GetMapping("/seedCategories")
@@ -35,6 +61,7 @@ public class MovieController {
         categoryRepository.save(new Category("SciFi"));
         categoryRepository.save(new Category("Fantasy"));
         categoryRepository.save(new Category("Broccoli"));
+
     }
 
     //This will be a button in admin pages to fill upp db to start later on
@@ -46,6 +73,11 @@ public class MovieController {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+
+    }
+
+    @GetMapping("/layout")
+    public void layout(){
 
     }
 
