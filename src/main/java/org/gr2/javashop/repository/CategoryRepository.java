@@ -7,7 +7,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CategoryRepository extends CrudRepository<Category, Integer> {
 
-    default void seed() {
-
-    }
 }

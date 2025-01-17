@@ -7,9 +7,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MovieRepository extends CrudRepository<Movie, Integer> {
 
-
-    static void seed() {
-        Movie movie1 = new Movie();
-
-    }
 }
