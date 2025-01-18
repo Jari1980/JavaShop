@@ -14,5 +14,25 @@
       <nav th:replace="layout.html :: navigation"></nav>
       <body>
     <h1>Where is Broccoli??</h1>
+       <!-- <p th:text="${session.latest3Movies}" th:unless="${session == null}"></p> -->
+    <br>
+    <br>
+    <p>Searchbar for movies here</p>
+    <br>
+    <br>
+    <h2>Latest three movies</h2>
+    <div class="row">
+        <div class="col-xl-3" th:each="latest3Movies : ${session.latest3Movies}">
+            <div class="card" style="width: 15rem; height: 40rem">
+                <img class="card-img-top" th:src="${latest3Movies.getImage()}" th:alt="@{images/Broccoli.jpg}">
+                <div class="card-body">
+                    <p class="card-title" th:text = "${latest3Movies.getTitle()}"></p>
+                    <hr>
+                    <p class="card-text" th:text = "${latest3Movies.getDescription()}"></p>
+                    <a href="#" class="btn btn-primary">AddToCard</a>
+                </div>
+            </div>
+        </div>
+    </div>
     </body>
 </html>
