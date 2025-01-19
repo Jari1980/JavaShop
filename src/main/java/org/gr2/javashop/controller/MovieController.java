@@ -8,13 +8,12 @@ import org.gr2.javashop.entity.Category;
 import org.gr2.javashop.entity.Movie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.gr2.javashop.repository.CategoryRepository;
 import org.gr2.javashop.repository.MovieRepository;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 import java.net.URI;
@@ -81,16 +80,45 @@ public class MovieController {
     }
 
     @GetMapping("/adminPages")
-    public void adminPages(){
+    public void adminPages(HttpSession session){
+        if(movieRepository.count() < 1){
+            session.setAttribute("showSeed", true);
+        }
+        else session.setAttribute("showSeed", false);
+    }
+
+    @PostMapping(value = "/adminPages")
+    public void adminPages(@RequestParam(name = "seed") String seed, HttpSession session) {
+
+        categoryRepository.save(new Category("Action"));
+        categoryRepository.save(new Category("Drama"));
+        categoryRepository.save(new Category("SciFi"));
+        categoryRepository.save(new Category("Fantasy"));
+        categoryRepository.save(new Category("Broccoli"));
+
+        try{
+            movieRepository.save(new Movie("Spider Girl", categoryRepository.findById(1).get(), 199.99, 1955, "Awesome action movie", new URI("images/SpiderGirl.jpg")));
+            movieRepository.save(new Movie("Broccoli Superstar", categoryRepository.findById(2).get(), 299.99, 1980, "Fantastic movie", new URI("images/Broccoli.jpg")));
+            movieRepository.save(new Movie("Java Warrior", categoryRepository.findById(3).get(), 99.99, 1980, "Java warrior go bananas", new URI("images/JavaWarrior.jpg")));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        if(movieRepository.count() < 1){
+            session.setAttribute("showSeed", true);
+        }
+        else session.setAttribute("showSeed", false);
 
     }
+
+
 
     @GetMapping("/about")
     public void about(){
 
     }
 
-    //This will be a button in admin pages to fill upp db to start later on
+    /*
     @GetMapping("/seedCategories")
     public void seedCategories() {
         categoryRepository.save(new Category("Action"));
@@ -101,13 +129,10 @@ public class MovieController {
 
     }
 
-    //This will be a button in admin pages to fill upp db to start later on
+
     @GetMapping("/seedMovies")
     public void seedMovies() {
         try{
-            //Path path1 = Paths.get("src/main/resources/static/images/Broccoli.jpg");
-            //Path path2 = Paths.get("src/main/resources/static/images/JavaWarrior.jpg");
-            //Path path3 = Paths.get("src/main/resources/static/images/SpiderGirl.jpg");
             movieRepository.save(new Movie("Spider Girl", categoryRepository.findById(1).get(), 199.99, 1955, "Awesome action movie", new URI("images/SpiderGirl.jpg")));
             movieRepository.save(new Movie("Broccoli Superstar", categoryRepository.findById(2).get(), 299.99, 1980, "Fantastic movie", new URI("images/Broccoli.jpg")));
             movieRepository.save(new Movie("Java Warrior", categoryRepository.findById(3).get(), 99.99, 1980, "Java warrior go bananas", new URI("images/JavaWarrior.jpg")));
@@ -116,6 +141,8 @@ public class MovieController {
         }
 
     }
+
+     */
 
     @GetMapping("/layout")
     public void layout(){

@@ -8,6 +8,20 @@
 </head>
 <nav th:replace="layout.html :: navigation"></nav>
 <body>
-<h1>Admin pages</h1>
+<div>
+    <h1>Admin pages - People who worship Broccoli</h1>
+    <br>
+    <br>
+    <div th:if="${session.showSeed == true}">
+        <h5>Looks like database is empty and since we all are lazy I created a seed function to create initial categories and movies.</h5>
+        <br>
+        <form method="post">
+            <label>
+                <input type="hidden" name="seed" value="seed">
+            </label>
+            <button type="submit" class="btn btn-primary" value="seed">Seed</button>
+        </form>
+    </div>
+</div>
 </body>
 </html>
