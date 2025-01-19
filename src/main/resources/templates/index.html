@@ -17,7 +17,33 @@
        <!-- <p th:text="${session.latest3Movies}" th:unless="${session == null}"></p> -->
     <br>
     <br>
-    <p>Searchbar for movies here</p>
+
+    <p>Search for a movie</p>
+    <form method="post">
+        <div>
+            <label>
+                <input type="text" name="searchValue">
+            </label>
+            <input type="submit" value="Search">
+        </div>
+    </form>
+
+
+
+    <div class="row">
+        <div class="col-xl-3" th:each="movieRes : ${session.movieRes}">
+            <div class="card" style="width: 15rem; height: 40rem">
+                <img class="card-img-top" th:src="${movieRes.getImage()}" th:alt="@{images/Broccoli.jpg}">
+                <div class="card-body">
+                    <p class="card-title" th:text = "${movieRes.getTitle()}"></p>
+                    <hr>
+                    <p class="card-text" th:text = "${movieRes.getDescription()}"></p>
+                    <a href="#" class="btn btn-primary">Add To Cart</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <br>
     <br>
     <h2>Latest three movies</h2>
@@ -29,7 +55,7 @@
                     <p class="card-title" th:text = "${latest3Movies.getTitle()}"></p>
                     <hr>
                     <p class="card-text" th:text = "${latest3Movies.getDescription()}"></p>
-                    <a href="#" class="btn btn-primary">AddToCard</a>
+                    <a href="#" class="btn btn-primary">Add To Cart</a>
                 </div>
             </div>
         </div>

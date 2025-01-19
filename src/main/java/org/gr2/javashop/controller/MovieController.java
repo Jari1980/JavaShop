@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.gr2.javashop.repository.CategoryRepository;
 import org.gr2.javashop.repository.MovieRepository;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 import java.net.URI;
@@ -23,6 +24,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static java.util.Locale.filter;
 
 @Controller
 public class MovieController {
@@ -36,18 +39,36 @@ public class MovieController {
         this.categoryRepository = categoryRepository;
     }
 
-    @RequestMapping("/")
+    @GetMapping("/")
     public String homepage(HttpSession session) {
 
         try {
             List<Movie> latest3Movies = ((List<Movie>) movieRepository.findAll()).stream().limit(3).toList();
             session.setAttribute("latest3Movies", latest3Movies);
-        } catch (RuntimeException e) {
+        }
+        catch (RuntimeException e) {
             System.out.println(e.getMessage() + ", didnt get last three movies");
         }
 
         return "index";
     }
+
+    @PostMapping("/")
+    public String homepage(@RequestParam(value = "searchValue") String searchValue, HttpSession session) {
+        try{
+            List<Movie> allMovies = (List<Movie>) movieRepository.findAll();
+            List<Movie> movieRes = allMovies.stream().filter(m -> m.getTitle().toLowerCase().contains(searchValue.toLowerCase())).collect(Collectors.toList());
+            session.setAttribute("movieRes", movieRes);
+            List<Movie> latest3Movies = ((List<Movie>) movieRepository.findAll()).stream().limit(3).toList();
+            session.setAttribute("latest3Movies", latest3Movies);
+        }
+        catch (RuntimeException e) {
+            System.out.println(e.getMessage() + ", Search function didnt work...............");
+        }
+        return "index";
+    }
+
+
 
     @GetMapping("/categories")
     public void categories(){
