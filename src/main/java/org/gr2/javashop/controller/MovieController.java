@@ -111,6 +111,35 @@ public class MovieController {
 
     }
 
+    @GetMapping("/categoriesEdit")
+    public void categoriesEdit(HttpSession session){
+        List<Category> categories = (List<Category>) categoryRepository.findAll();
+        session.setAttribute("categories", categories);
+    }
+    @GetMapping("/addCategory")
+    public String addCategory(Category category) {
+        return "addCategory";
+    }
+    @PostMapping("/addCategory")
+    public String addCategory(Category category, BindingResult result, Model model) {
+        categoryRepository.save(category);
+        return "redirect:/adminPages";
+    }
+    @GetMapping("editCategory/{id}")
+    public String editCategory(@PathVariable("id") int id, Model model) {
+        Category category = categoryRepository.findById(id).get();
+
+        return "editCategory";
+    }
+    @PostMapping("/editCategory/{id}")
+    public String editCategory(@PathVariable("id") int id, Category category, BindingResult result, Model model) {
+        if(result.hasErrors()){
+            return "editCategory";
+        }
+        categoryRepository.save(category);
+        return "redirect:/adminPages";
+    }
+
 
 
     @GetMapping("/about")
