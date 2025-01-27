@@ -115,6 +115,20 @@ public class MovieController {
 
     }
 
+    @GetMapping("/moviesEdit")
+    public void moviesEdit(HttpSession session){
+        List<Movie> movies = (List<Movie>) movieRepository.findAll();
+        session.setAttribute("movies", movies);
+    }
+
+    @GetMapping("/deleteMovie/{name}")
+    public String deleteMovie(@PathVariable("name") String name) {
+        Movie movie = movieRepository.findByTitle(name);
+        movieRepository.delete(movie);
+
+        return "redirect:/adminPages";
+    }
+
     @GetMapping("/categoriesEdit")
     public void categoriesEdit(HttpSession session){
         List<Category> categories = (List<Category>) categoryRepository.findAll();
@@ -155,7 +169,7 @@ public class MovieController {
 
 
     @GetMapping("/deleteCategory/{name}")
-    public String deleteCategory(@PathVariable("name") String name, Model model) {
+    public String deleteCategory(@PathVariable("name") String name) {
         Category category = categoryRepository.findByName(name);
         if(!movieRepository.findByCategory(category).isEmpty()){
             return "redirect:/adminPages";
