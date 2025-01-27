@@ -1,6 +1,9 @@
 package org.gr2.javashop.controller;
 
-import ch.qos.logback.core.model.Model;
+//import ch.qos.logback.core.model.Model;
+import jakarta.transaction.Transactional;
+import org.springframework.ui.Model;
+import jakarta.persistence.Entity;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -14,6 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.gr2.javashop.repository.CategoryRepository;
 import org.gr2.javashop.repository.MovieRepository;
+
 
 import java.io.IOException;
 import java.net.URI;
@@ -125,18 +129,27 @@ public class MovieController {
         categoryRepository.save(category);
         return "redirect:/adminPages";
     }
+
     @GetMapping("editCategory/{id}")
     public String editCategory(@PathVariable("id") int id, Model model) {
         Category category = categoryRepository.findById(id).get();
+        model.addAttribute("category", category);
 
         return "editCategory";
     }
+
     @PostMapping("/editCategory/{id}")
-    public String editCategory(@PathVariable("id") int id, Category category, BindingResult result, Model model) {
+    public String editCategory(@PathVariable("id") int id, Category category, BindingResult result) {
         if(result.hasErrors()){
             return "editCategory";
         }
-        categoryRepository.save(category);
+        categoryRepository
+                .findById(id)
+                .ifPresent(cat -> {
+                    cat.setName(category.getName());
+
+                    categoryRepository.save(cat);
+                });
         return "redirect:/adminPages";
     }
 
