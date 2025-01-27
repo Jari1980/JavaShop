@@ -128,6 +128,16 @@ public class MovieController {
 
         return "redirect:/adminPages";
     }
+    @GetMapping("/addMovie")
+    public String showAddMovie(Movie movie) {
+
+        return "addMovie";
+    }
+    @PostMapping("/addMovie")
+    public String addCategory(Movie movie, BindingResult result, Model model) {
+        movieRepository.save(movie);
+        return "redirect:/adminPages";
+    }
 
     @GetMapping("/categoriesEdit")
     public void categoriesEdit(HttpSession session){
