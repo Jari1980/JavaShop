@@ -30,7 +30,7 @@
                     <td th:text="${categories.getId()}"></td>
                     <td th:text="${categories.getName()}"></td>
                     <td><a th:href="@{/editCategory/{id}(id=${categories.getId()})}">Edit</a></td>
-                    <td><a th:href="@{/delete/{id}(id=${categories.getName()})}">Delete</a></td>
+                    <td><a th:href="@{/deleteCategory/{name}(name=${categories.getName()})}">Delete</a></td>
                 </tr>
                 </tbody>
             </table>
