@@ -154,6 +154,17 @@ public class MovieController {
     }
 
 
+    @GetMapping("/deleteCategory/{name}")
+    public String deleteCategory(@PathVariable("name") String name, Model model) {
+        Category category = categoryRepository.findByName(name);
+        if(!movieRepository.findByCategory(category).isEmpty()){
+            return "redirect:/adminPages";
+        }
+        categoryRepository.delete(category);
+
+        return "redirect:/adminPages";
+    }
+
 
     @GetMapping("/about")
     public void about(){
